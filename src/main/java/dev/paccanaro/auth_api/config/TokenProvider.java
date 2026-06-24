@@ -1,0 +1,72 @@
+package dev.paccanaro.auth_api.config;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import javax.crypto.SecretKey;
+import java.util.Date;
+
+@Component
+public class TokenProvider {
+
+    @Value("${JWT_EXPIRATION}")
+    private long expirationTime;
+
+    @Value("${JWT_KEY}")
+    private String key;
+
+    public String gerarToken(Authentication authentication) {
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        return buildToken(user.getUsername());
+    }
+
+    public String buildToken(String username) {
+        Date now = new Date();
+        Date expiration =new Date(now.getTime() + expirationTime);
+
+        return Jwts.builder()
+                .subject(username)
+                .issuedAt(now)
+                .expiration(expiration)
+                .signWith(getSiningKey())
+                .compact();
+    }
+
+    private SecretKey getSiningKey() {
+        return Keys.hmacShaKeyFor(key.getBytes());
+    }
+
+
+    public boolean isTokenValid(String token) {
+        try{
+            getClaims(token);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private Claims getClaims(String token) {
+        // Validar Assinaturya
+        // Validar Expiração
+        return Jwts.parser()
+                .verifyWith(getSiningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+
+    }
+
+    public String getUsername(String token) {
+        return getClaims(token).getSubject();
+    }
+
+
+
+}
