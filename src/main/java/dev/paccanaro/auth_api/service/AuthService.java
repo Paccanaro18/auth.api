@@ -31,7 +31,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenProvider tokenProvider;
-    @Value("${JWT_EXPIRATION}")
+    @Value("${spring.jwt.expiration}")
     private long expiration;
 
     public void register(RegisterRequestDto registerRequestDto) throws BadRequestException {
@@ -56,7 +56,6 @@ public class AuthService {
     public TokenResponseDto login(LoginRequestDto loginRequestDto) throws BadRequestException {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getSenha()));
-            tokenProvider.gerarToken(authentication);
             String token = tokenProvider.gerarToken(authentication);
             return new TokenResponseDto(token, expiration);
         }catch (BadCredentialsException  badCredentialsException){
