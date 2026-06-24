@@ -17,9 +17,9 @@ public class RolesEntity implements GrantedAuthority {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-
 
 
     @Override

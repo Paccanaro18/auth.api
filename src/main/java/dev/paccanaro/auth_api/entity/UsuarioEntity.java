@@ -27,11 +27,8 @@ public class UsuarioEntity implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
     private String nome;
-    @NotBlank
     private String email;
-    @NotBlank
     private String senha;
 
 
