@@ -6,6 +6,8 @@ target/
 .idea/
 *.iml
 application-local.properties
+.env
+*.env
 
 ### STS ###
 .apt_generated
