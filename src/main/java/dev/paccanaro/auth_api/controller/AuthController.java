@@ -7,10 +7,8 @@ import dev.paccanaro.auth_api.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/auth")
@@ -20,11 +18,13 @@ public class AuthController {
 
    private final  AuthService authService;
 
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
     public void register(@RequestBody @Valid RegisterRequestDto registerRequestDto) throws Exception {
         authService.register(registerRequestDto);
     }
-
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     public TokenResponseDto login(@RequestBody @Valid LoginRequestDto loginRequestDto) throws Exception {
        return authService.login(loginRequestDto);
