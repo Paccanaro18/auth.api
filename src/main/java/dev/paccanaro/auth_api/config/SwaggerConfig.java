@@ -1,32 +1,18 @@
 package dev.paccanaro.auth_api.config;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.properties.SwaggerUiConfigParameters;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI openAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Auth API")
-                        .description("API REST de autenticação com JWT")
-                        .version("1.0.0")
-                        .contact(new Contact()
-                                .name("Artur Paccanaro")
-                                .url("https://github.com/Paccanaro18")))
-                .addSecurityItem(new SecurityRequirement().addList("Bearer Auth"))
-                .components(new Components()
-                        .addSecuritySchemes("Bearer Auth", new SecurityScheme()
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")));
+    public SwaggerUiConfigParameters swaggerUiConfigParameters() {
+        SwaggerUiConfigParameters config = new SwaggerUiConfigParameters(new SwaggerUiConfigProperties());
+        config.setSupportedSubmitMethods(List.of());
+        return config;
     }
 }
