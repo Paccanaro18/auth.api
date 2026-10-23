@@ -6,7 +6,7 @@ API REST de autenticação com JWT desenvolvida em Java com Spring Boot.
 
 - Java 21
 - Spring Boot
-- Spring Security
+- Spring Security    
 - JWT (JSON Web Token)
 - MySQL 8
 - Docker e Docker Compose
